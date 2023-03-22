@@ -4,13 +4,12 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract Whitelist {
     string baseURL;
-    uint256 public minAmount = 2;
 
     struct User {
         address user;
         uint256 amount;
         uint256 referrals;
-        bool whitelisted;     
+        bool whitelisted;
     }
 
     mapping(string => User) public whitelisted;
@@ -23,8 +22,7 @@ contract Whitelist {
         baseURL = _baseURL;
     }
 
-    function whitelist(string memory ID, uint256 _amount) public returns(string memory) {
-        require(_amount >= minAmount, "Not eligible for Whitelist");
+    function whitelist(string memory ID, uint256 _amount) public  {
         require(!whitelisted[ID].whitelisted, "Already whitelisted");
 
         User memory user = User({
@@ -37,8 +35,6 @@ contract Whitelist {
         whitelisted[ID] = user;
 
         emit Whitelisted(msg.sender, _amount);
-
-        return string.concat(baseURL, ID);
     }
 
     function referral(string memory ID) public {
